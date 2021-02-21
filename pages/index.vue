@@ -1,78 +1,102 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        frontend
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+  <!-- This is an example component -->
+  <div class="h-screen font-sans login bg-cover">
+    <div
+      class="container mx-auto h-full flex flex-1 justify-center items-center"
+    >
+      <div class="w-full max-w-lg">
+        <div class="leading-loose">
+          <form
+            class="max-w-sm m-4 p-10 bg-white bg-opacity-25 rounded shadow-xl"
+            @submit.prevent="onSubmit()"
+          >
+            <p class="text-white font-medium text-center text-lg font-bold">
+              LOGIN
+            </p>
+            <div class="">
+              <label class="block text-sm text-white" for="email">E-mail</label>
+              <input
+                id="email"
+                v-model="email"
+                class="w-full px-5 py-1 text-gray-700 bg-gray-300 rounded focus:outline-none focus:bg-white"
+                type="email"
+                placeholder="Email"
+                aria-label="email"
+                required
+              >
+            </div>
+            <div class="mt-2">
+              <label class="block text-sm text-white">Contraseña</label>
+              <input
+                id="password"
+                v-model="password"
+                class="w-full px-5 py-1 text-gray-700 bg-gray-300 rounded focus:outline-none focus:bg-white"
+                type="password"
+                placeholder="Contraseña"
+                arial-label="password"
+                required
+              >
+            </div>
+
+            <div class="mt-4 items-center flex justify-between">
+              <button
+                class="px-4 py-1 text-white font-light tracking-wider bg-gray-900 hover:bg-gray-800 rounded"
+                type="submit"
+              >
+                Entrar
+              </button>
+              <a
+                class="inline-block right-0 align-baseline font-bold text-sm text-500 text-white hover:text-red-400"
+                href="#"
+              >¿Olvidó su contraseña?</a>
+            </div>
+            <div class="text-center">
+              <a
+                class="inline-block right-0 align-baseline font-light text-sm text-500 hover:text-red-400"
+              >
+                Crear una cuenta
+              </a>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  auth: 'guest',
+  data () {
+    return {
+      email: 'admin@admin.com',
+      password: 'password'
+    }
+  },
+  methods: {
+    async onSubmit () {
+      await this.$auth.loginWith('laravelSanctum', {
+        data: {
+          email: this.email,
+          password: this.password
+        }
+      })
+
+      this.$router.push({
+        path: 'dashboard'
+      })
+    }
+  }
+}
 </script>
 
 <style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+.login{
+  /*
+    background: url('https://tailwindadmin.netlify.app/dist/images/login-new.jpeg');
+  */
+  background: url('http://bit.ly/2gPLxZ4');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 </style>
